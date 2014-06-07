@@ -1,11 +1,8 @@
 <?php 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
-
 /**
 * 
 */
-class Debits extends Eloquent implements UserInterface, RemindableInterface 
+class Debits extends Eloquent
 {
 	protected $table = 'debits';
 	public $error;
@@ -40,36 +37,8 @@ class Debits extends Eloquent implements UserInterface, RemindableInterface
         return $this->hasMany('debits_has_credits', 'debits_id');
     }
 
-    public function getAuthIdentifier()
+    public function isValid()
     {
-        return $this->getKey();
-    }
-
-    public function getAuthPassword()
-    {
-        return $this->password;
-    }
-
-    public function getRememberToken()
-    {
-        return $this->remember_token;
-    }
-
-    public function setRememberToken($value)
-    {
-        $this->remember_token = $value;
-    }
-
-    public function getRememberTokenName()
-    {
-        return 'remember_token';
-    }
-
-    public function getReminderEmail()
-    {
-        return $this->email;
-    }
-    public function isValid(){
         $validation = Validator::make($this->attributes, static::$rules);
         if($validation->passes())
         {
